@@ -3,5 +3,24 @@ block scripts
     script.
         let h1 = document.querySelector('h1');
         h1.innerHTML += ' World!';
+
+        let checkbox = document.querySelector('input[type=checkbox]')
+        let checked = false
+        checkbox.oninput = ({target}) => {
+            checked = target.checked;
+            console.log(checked)
+        }
 block content 
     h1.ui.header.segment Hello
+    .ui.divider
+    .ui.segment
+        form.ui.form
+            .ui.field 
+                .ui.checkbox
+                    input(type='checkbox')
+                    label Check this
+            .ui.field
+                if checked
+                    | Checked!
+                else
+                    | Not checked.
