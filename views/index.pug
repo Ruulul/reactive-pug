@@ -1,3 +1,7 @@
 extends layout
+block scripts
+    script.
+        let h1 = document.querySelector('h1');
+        h1.innerHTML += ' World!';
 block content 
-    h1.ui.header.segment Hello world!
+    h1.ui.header.segment Hello
