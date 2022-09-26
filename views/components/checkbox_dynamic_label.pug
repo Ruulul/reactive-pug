@@ -1,0 +1,20 @@
+extends component.pug
+append content
+    .ui.checkbox
+        input(type='checkbox')
+        label
+append script
+    +set_attr('text_if_true', text_if_true)
+    +set_attr('text_if_false', text_if_false)
+    .
+        input = root.querySelector('input');
+        label = root.querySelector('label');
+        const oninput = function () {
+            if (input.checked) 
+                label.innerHTML = text_if_true
+            else
+                label.innerHTML = text_if_false
+
+        };
+        oninput();
+        input.oninput = oninput;

@@ -1,0 +1,7 @@
+extends component.pug
+append content
+    p
+append script
+    +set_attr('title', title)
+    .
+        root.querySelector('p').innerHTML = title;

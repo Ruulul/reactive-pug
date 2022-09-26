@@ -1,0 +1,7 @@
+mixin set_attr(key, value)
+    != key + ' = "' + value + '";'
+document
+    block content
+    script
+        | root = document.currentScript.parentNode;
+        block script

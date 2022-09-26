@@ -1,0 +1,7 @@
+mixin scoped_p(title)
+    -var title = title
+    include scoped_p.pug
+mixin checkbox_dynamic_label(text_if_true, text_if_false)
+    -var text_if_true = text_if_true
+    -var text_if_false = text_if_false
+    include checkbox_dynamic_label.pug
