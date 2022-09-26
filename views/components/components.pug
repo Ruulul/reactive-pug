@@ -1,7 +1,10 @@
+- var id = 0 
 mixin scoped_p(title)
+    - ++id
     -var title = title
     include scoped_p.pug
 mixin checkbox_dynamic_label(text_if_true, text_if_false)
+    - ++id
     -var text_if_true = text_if_true
     -var text_if_false = text_if_false
     include checkbox_dynamic_label.pug
