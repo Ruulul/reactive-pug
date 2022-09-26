@@ -1,4 +1,4 @@
-export default function index(_, _, next) {
+export default function index(req, res, next) {
     console.log('Authenticated!');
     next();
 }
