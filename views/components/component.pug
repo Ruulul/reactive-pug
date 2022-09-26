@@ -1,5 +1,7 @@
 mixin set_attr(key, value)
-    != key + id + ' = "' + value + '";'
+    != key + id + ' = "' + value + '";' 
+mixin set_global_attr(key, value)
+    != key + ' = "' + value + '";'
 document
     block content
     - ++id
