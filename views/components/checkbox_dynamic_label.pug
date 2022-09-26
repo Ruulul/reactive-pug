@@ -7,16 +7,15 @@ append script
     +set_attr('text_if_true', text_if_true)
     +set_attr('text_if_false', text_if_false)
     .
-        let input#{id} = root.querySelector('input');
+        const input#{id} = root.querySelector('input');
 
-        let label#{id} = root.querySelector('label');
+        const label#{id} = root.querySelector('label');
 
         const oninput#{id} = function () {
             if (input#{id}.checked) 
                 label#{id}.innerHTML = text_if_true#{id}
             else
                 label#{id}.innerHTML = text_if_false#{id}
-
         };
 
         oninput#{id}();
