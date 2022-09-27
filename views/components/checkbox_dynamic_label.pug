@@ -14,11 +14,5 @@ append script
         const label = new Component({store, element: root.querySelector('label')});
         const input = root.querySelector('input');
 
-        label.render = function() {
-            if (state.checked) {
-                return `| ${text_if_true}`
-            } else {
-                return `| ${text_if_false}`
-            }
-        }
+        label.render = () => '| ' + (state.checked ? text_if_true : text_if_false);
         input.oninput = () => state.checked = input.checked;
