@@ -1,10 +1,10 @@
 mixin set_attr(key, value)
-    != key + id + ' = "' + value + '";' 
-mixin set_global_attr(key, value)
-    != key + ' = "' + value + '";'
-document
+    !='let ' + key + ' = "' + value + '";'
+- ++id
+document(id=id)
     block content
-    - ++id
-    script
-        | root = document.currentScript.parentNode;
+    script(type='module')
+        | let root = document.getElementById(#{id});
+        | let Store = window.Store;
+        | let Component = window.Component;
         block script

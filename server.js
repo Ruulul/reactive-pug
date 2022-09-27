@@ -5,6 +5,7 @@ let port = process.env.PORT || 3001
 const app = express();
 
 app.set('view engine', 'pug');
+app.use('/js', express.static('./views/lib'));
 app.use('/', index);
 
 app.listen(port, ()=>{

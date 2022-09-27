@@ -1,0 +1,43 @@
+extends ../component.pug
+append content
+    .ui.checkbox
+        input(type='checkbox')
+        label
+append script
+    +set_attr('text_if_true', text_if_true)
+    +set_attr('text_if_false', text_if_false)
+    .
+        const store = new Store({
+            state: {
+                checked: false,
+            },
+            actions: {
+                change(context, payload) {
+                    context.commit('change', payload);
+                },
+            },
+            mutations: {
+                change(state, payload) {
+                    state.checked = payload;
+                    return state;
+                },
+            }
+        });
+
+        const checkbox = new Component({
+            store: store,
+            element: root.querySelector('.ui.checkbox label'),
+        });
+
+
+        checkbox.render = function() {
+            if (this.store.state.checked) {
+                this.element.innerHTML = text_if_true;
+            } else {
+                this.element.innerHTML = text_if_false;
+            }
+        }
+        checkbox.render();
+        root.querySelector('input').oninput = function(e){
+            store.dispatch('change', e.target.checked);
+        }
