@@ -10,9 +10,6 @@ function Store(params) {
 
 function setState (state, key, value) {
     state[key] = value;
-    
-    console.log(`stateChange: \nstate.${key}: ${value}`);
-
     this.events.publish('stateChange', this.state);    
 
     return true;
