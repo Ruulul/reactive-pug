@@ -7,11 +7,13 @@ append content
         button.ui.button 
             i.plus.icon
             | new item
+    .ui.statistics
 append script
     . 
         const store = new Store({state: {items: []}});
         const state = store.state;
         const list = new Component({store, element: root.querySelector('.ui.list')});
+        const numbers = new Component({store, element: root.querySelector('.ui.statistics')});
 
         list.render = function () {
             return state.items.map(
@@ -33,6 +35,20 @@ append script
                     state.items = state.items.filter(item=>item.id !== id);
                 };
             });
+        }
+        numbers.render = function () {
+            let completed = state.items.filter(item=>item.checked).length;
+            let total = state.items.length;
+            let percentage = Math.floor(0.5 + 100 * completed/total || 0) + '%';
+            return    '.statistic' +
+                    '\n .label Items completed' +
+                    '\n .value ' + completed +
+                    '\n.statistic' +
+                    '\n .label Total items' +
+                    '\n .value ' + total +
+                    '\n.statistic' +
+                    '\n .label Percentage' +
+                    '\n .value ' + percentage
         }
         const input = root.querySelector('input');
         const new_item = root.querySelector('button');
