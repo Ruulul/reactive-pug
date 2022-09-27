@@ -4,16 +4,15 @@ block scripts
         let h1 = document.querySelector('h1');
         h1.innerHTML += ' World!';
 block content 
-    h1.ui.header.segment Hello
+    h1.ui.center.aligned.huge.header Hello
     .ui.divider
-    .ui.segment
-        .ui.form
-            .ui.field
-                +checkbox_dynamic_label("Checked!", "Not checked!")
-                br
-                +checkbox_dynamic_label("Checked2!", "Not checked2!")
-            .ui.field
-                +scoped_p("Hopefully they will have")
-                +scoped_p("different texts")
-            .ui.field
-                +todo_list()
+    .ui.form
+        .ui.field
+            +checkbox_dynamic_label("Checked!", "Not checked!")
+            br
+            +checkbox_dynamic_label("Checked2!", "Not checked2!")
+        .ui.field
+            +scoped_p("Hopefully they will have")
+            +scoped_p("different texts")
+        .ui.field
+            +todo_list()
