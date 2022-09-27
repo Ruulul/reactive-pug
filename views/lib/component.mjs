@@ -13,7 +13,10 @@ let pug = require('pug');
  */
 function Component(props) {
     this._render = props.render || null;
-    this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
+    this.__defineSetter__('render', (fn)=>{
+        this._render=fn.bind(this);
+        this.render();
+    });
     this.__defineGetter__('render', ()=> function () { if (this._render) this.element.innerHTML = pug.render(this._render()); }.bind(this));
     this._afterRender = props.bindings || function () {}
     this.__defineSetter__('bindings', (fn)=>{
