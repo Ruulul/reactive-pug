@@ -15,6 +15,9 @@ function Component(props) {
     this._render = props.render || function () {return ''};
     this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
     this.__defineGetter__('render', ()=> function () { this.element.innerHTML = pug.render(this._render()); }.bind(this));
+    this._afterRender = props.afterRender || function () {}
+    this.__defineSetter__('afterRender', (fn)=>this._afterRender=fn.bind(this));
+    this.__defineGetter__('afterRender', ()=>console.log("No point getting that"));
 
     this.unsubscribes = [];
     if (props.store instanceof Store)
@@ -24,8 +27,11 @@ function Component(props) {
         if (store instanceof Store)
             this.unsubscribes.push(props.store.events.subscribe('stateChange', () => this.render()));
 
-    if (props.element) 
+    if (props.element)  {
         this.element = props.element;
+        this.observer = new MutationObserver(()=>this._afterRender()); 
+        this.observer.observe(this.element, {childList: true});
+    }
 }
 
 /**

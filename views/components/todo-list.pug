@@ -14,13 +14,25 @@ append script
         const list = new Component({store, element: root.querySelector('.ui.list')});
 
         list.render = function () {
-            console.log("rendering")
             return state.items.map(
                 item=>'.item' +
                       '\n i.icon.outline.square' + (item.checked ? '.check' : '') +
                       '\n div.content ' + item.label +
                       '\n   i.x.icon'
             ).join('\n');
+        }
+        list.afterRender = function () {
+            this.element.querySelectorAll('.item').forEach((node, i)=>{
+                let item = state.items[i];
+                node.querySelector('.square').onclick = function () {
+                    state.items[i].checked = !item.checked;
+                    state.items = state.items;
+                };
+                node.querySelector('.x').onclick = function () {
+                    let id = item.id;
+                    state.items = state.items.filter(item=>item.id !== id);
+                };
+            });
         }
         const input = root.querySelector('input');
         const new_item = root.querySelector('button');
@@ -30,21 +42,3 @@ append script
             state.items = state.items;
             input.value = '';
         }
-
-        const observer = new MutationObserver(function(mutations, observer) {
-            mutations.forEach(mutation=>
-                mutation.addedNodes.forEach((node, i)=>{
-                    let item = state.items[i];
-                    node.querySelector('.square').onclick = function () {
-                        console.log(state.items)
-                        state.items[i].checked = !item.checked;
-                        state.items = state.items;
-                    };
-                    node.querySelector('.x').onclick = function () {
-                        let id = item.id;
-                        state.items = state.items.filter(item=>item.id !== id);
-                    };
-                }));
-        });
-
-        observer.observe(list.element, {childList:true});
