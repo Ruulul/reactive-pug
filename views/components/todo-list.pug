@@ -10,6 +10,8 @@ append content
     .ui.statistics
 append script
     . 
+        import Store from '/js/store.mjs';
+        import Component from '/js/component.mjs';
         const { store, state } = Store.makeStore({items: []});
         const list = new Component({store, element: root.querySelector('.ui.list')});
         const numbers = new Component({store, element: root.querySelector('.ui.statistics')});

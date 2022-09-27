@@ -7,6 +7,8 @@ append script
     +set_attr('text_if_true', text_if_true)
     +set_attr('text_if_false', text_if_false)
     .
+        import Store from '/js/store.mjs';
+        import Component from '/js/component.mjs';
         const { store, state } = Store.makeStore({checked: false});
 
         const label = new Component({store, element: root.querySelector('label')});
