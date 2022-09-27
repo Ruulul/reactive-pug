@@ -7,7 +7,7 @@ block content
     h1.ui.header.segment Hello
     .ui.divider
     .ui.segment
-        form.ui.form
+        .ui.form
             .ui.field
                 +checkbox_dynamic_label("Checked!", "Not checked!")
                 br
@@ -15,3 +15,5 @@ block content
             .ui.field
                 +scoped_p("Hopefully they will have")
                 +scoped_p("different texts")
+            .ui.field
+                +todo_list()

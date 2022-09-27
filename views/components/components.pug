@@ -5,4 +5,6 @@ mixin scoped_p(title)
 mixin checkbox_dynamic_label(text_if_true, text_if_false)
     -var text_if_true = text_if_true
     -var text_if_false = text_if_false
-    include checkbox_dynamic_label/index.pug
+    include checkbox_dynamic_label.pug
+mixin todo_list()
+    include todo-list.pug

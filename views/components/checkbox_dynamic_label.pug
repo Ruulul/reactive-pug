@@ -1,0 +1,24 @@
+extends component.pug
+append content
+    .ui.checkbox
+        input(type='checkbox')
+        label
+append script
+    +set_attr('text_if_true', text_if_true)
+    +set_attr('text_if_false', text_if_false)
+    .
+        const store = new Store({state: {checked: false}});
+        const state = store.state;
+
+        const label = new Component({store, element: root.querySelector('label')});
+        const input = root.querySelector('input');
+
+        label.render = function() {
+            if (store.state.checked) {
+                return `| ${text_if_true}`
+            } else {
+                return `| ${text_if_false}`
+            }
+        }
+        label.render();
+        input.oninput = () => state.checked = input.checked;
