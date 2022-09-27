@@ -35,9 +35,7 @@ Store.prototype.dispatch = function (actionKey, payload) {
     }
     this.status = 'action';
 
-    this.actions[actionKey](this, payload);
-
-    return true;
+    return this.actions[actionKey](this, payload);
 }
 
 Store.prototype.commit = function (mutationKey, payload) {
@@ -47,11 +45,7 @@ Store.prototype.commit = function (mutationKey, payload) {
     }
     this.status = 'mutation';
 
-    let new_state = this.mutations[mutationKey](this.state, payload);
-
-    this.state = Object.assign(this.state, new_state);
-
-    return true;
+    return this.mutations[mutationKey](this.state, payload);
 }
 
 export default Store;

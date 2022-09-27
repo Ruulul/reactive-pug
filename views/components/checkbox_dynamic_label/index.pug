@@ -14,21 +14,18 @@ append script
             actions: {
                 change(context, payload) {
                     context.commit('change', payload);
+                    return true;
                 },
             },
             mutations: {
                 change(state, payload) {
                     state.checked = payload;
-                    return state;
+                    return true;
                 },
             }
         });
 
-        const checkbox = new Component({
-            store: store,
-            element: root.querySelector('.ui.checkbox label'),
-        });
-
+        const checkbox = new Component({store, element: root.querySelector('.ui.checkbox label')});
 
         checkbox.render = function() {
             if (this.store.state.checked) {
