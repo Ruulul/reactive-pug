@@ -7,8 +7,7 @@ append script
     +set_attr('text_if_true', text_if_true)
     +set_attr('text_if_false', text_if_false)
     .
-        const store = new Store({state: {checked: false}});
-        const state = store.state;
+        const { store, state } = Store.makeStore({checked: false});
 
         const label = new Component({store, element: root.querySelector('label')});
         const input = root.querySelector('input');

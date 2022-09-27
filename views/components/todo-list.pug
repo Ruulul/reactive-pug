@@ -10,8 +10,7 @@ append content
     .ui.statistics
 append script
     . 
-        const store = new Store({state: {items: []}});
-        const state = store.state;
+        const { store, state } = Store.makeStore({items: []});
         const list = new Component({store, element: root.querySelector('.ui.list')});
         const numbers = new Component({store, element: root.querySelector('.ui.statistics')});
 

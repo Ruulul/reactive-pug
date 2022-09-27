@@ -1,11 +1,11 @@
 import PubSub from "./pubsub.mjs";
 
-function Store(params) {
+function Store(state) {
     this.events = new PubSub();
 
     let set = setState.bind(this);
 
-    this.state = new Proxy(params.state || {}, {set});
+    this.state = new Proxy(state || {}, {set});
 }
 
 function setState (state, key, value) {
@@ -15,6 +15,12 @@ function setState (state, key, value) {
     return true;
 }
 
+Store.makeStore = function (from_state) {
+    let store = new Store(from_state);
+    let state = store.state;
+
+    return {store, state};
+}
 export default Store;
 export {
     Store,
