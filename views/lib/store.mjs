@@ -26,13 +26,3 @@ export default Store;
 export {
     Store,
 };
-try {
-    window.Store = Store;
-} catch {
-    console.log("Not on browser");
-}
-try {
-    global.Store = Store;
-} catch {
-    console.log("Not on node");
-}

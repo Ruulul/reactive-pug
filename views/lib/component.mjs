@@ -62,13 +62,3 @@ export default Component;
 export {
     Component,
 };
-try {
-    window.Component = Component;
-} catch {
-    console.log("Not on browser");
-}
-try {
-    global.Component = Component;
-} catch {
-    console.log("Not on node");
-}
