@@ -13,7 +13,7 @@ append script
         const input = root.querySelector('input');
 
         label.render = function() {
-            if (store.state.checked) {
+            if (state.checked) {
                 return `| ${text_if_true}`
             } else {
                 return `| ${text_if_false}`
