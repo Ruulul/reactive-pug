@@ -50,7 +50,7 @@ function Component(props) {
  * @param {Store} store 
  */
 Component.prototype.subscribe = function (store) {
-    this.unsubscribes.push(store.events.subscribe(() => this.render()));
+    this.unsubscribes.push(store.subscribe(() => this.render()));
 }
 export default Component;
 export {
