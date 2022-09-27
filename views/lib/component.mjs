@@ -27,11 +27,11 @@ function Component(props) {
 
     this.unsubscribes = [];
     if (props.store instanceof Store)
-        this.unsubscribes.push(props.store.events.subscribe('stateChange', () => this.render()));
+        this.unsubscribes.push(props.store.subscribe('stateChange', () => this.render()));
     
     for (let store of props.stores || [])
         if (store instanceof Store)
-            this.unsubscribes.push(props.store.events.subscribe('stateChange', () => this.render()));
+            this.unsubscribes.push(props.store.subscribe('stateChange', () => this.render()));
 
     if (props.element)  {
         this.element = props.element;

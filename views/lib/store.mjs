@@ -1,7 +1,8 @@
 import PubSub from "./pubsub.mjs";
 
 function Store(state) {
-    this.events = new PubSub();
+    this._store = new PubSub();
+    this.subscribe = this._store.subscribe.bind(this._store);
 
     let set = setState.bind(this);
 
@@ -10,7 +11,7 @@ function Store(state) {
 
 function setState (state, key, value) {
     state[key] = value;
-    this.events.publish('stateChange', this.state);    
+    this._store.publish('stateChange', this.state);    
 
     return true;
 }
