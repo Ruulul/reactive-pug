@@ -1,11 +1,13 @@
 import Store from "./store.mjs";
 import './pug.js';
 let pug = require('pug');
+
 /**
  * 
  * @param {{
  * render: function,
  * store: Store,
+ * stores: Store[],
  * element: HTMLElement,
  * }} props 
  */
@@ -13,15 +15,26 @@ function Component(props) {
     this._render = props.render || function () {return ''};
     this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
     this.__defineGetter__('render', ()=> function () { this.element.innerHTML = pug.render(this._render()); }.bind(this));
-    this.store = props.store || {};
 
+    this.unsubscribes = [];
     if (props.store instanceof Store)
-        this.unsubscribe = props.store.events.subscribe('stateChange', () => this.render());
+        this.unsubscribes.push(props.store.events.subscribe('stateChange', () => this.render()));
+    
+    for (let store of props.stores || [])
+        if (store instanceof Store)
+            this.unsubscribes.push(props.store.events.subscribe('stateChange', () => this.render()));
 
     if (props.element) 
         this.element = props.element;
 }
 
+/**
+ * 
+ * @param {Store} store 
+ */
+Component.prototype.subscribe = function (store) {
+    this.unsubscribes.push(store.events.subscribe(() => this.render()));
+}
 export default Component;
 export {
     Component,
