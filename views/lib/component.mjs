@@ -13,28 +13,15 @@ let pug = require('pug');
  */
 function Component(props) {
     this._render = props.render || null;
-    this.__defineSetter__('render', (fn)=>{
-        this._render=fn.bind(this);
-        this.render();
-    });
-    this.__defineGetter__('render', ()=> function () { if (this._render) this.element.innerHTML = pug.render(this._render()); }.bind(this));
     this._afterRender = props.bindings || function () {}
-    this.__defineSetter__('bindings', (fn)=>{
-        this._afterRender=fn.bind(this);
-        if (!this.observer) {
-            this.observer = new MutationObserver(()=>this._afterRender()); 
-            this.observer.observe(this.element, {childList: true});
-        }
-    });
-    this.__defineGetter__('bindings', ()=>console.log("No point getting that"));
 
     this.unsubscribes = [];
     if (props.store instanceof Store)
-        this.unsubscribes.push(props.store.subscribe('stateChange', () => this.render()));
+        this.unsubscribes.push(props.store.subscribe(() => this.render()));
     
     for (let store of props.stores || [])
         if (store instanceof Store)
-            this.unsubscribes.push(props.store.subscribe('stateChange', () => this.render()));
+            this.unsubscribes.push(props.store.subscribe(() => this.render()));
 
     if (props.element)  {
         this.element = props.element;
@@ -44,6 +31,25 @@ function Component(props) {
         }
     }
 }
+
+
+Component.prototype.__defineSetter__('render', function (fn) {
+    this._render=fn.bind(this);
+    this.render();
+});
+Component.prototype.__defineGetter__('render', function () { 
+    return function () { 
+        if (this._render) this.element.innerHTML = pug.render(this._render()); 
+    }.bind(this) 
+});
+Component.prototype.__defineSetter__('bindings', function (fn) {
+    this._afterRender=fn.bind(this);
+    if (!this.observer) {
+        this.observer = new MutationObserver(()=>this._afterRender()); 
+        this.observer.observe(this.element, {childList: true});
+    }
+});
+Component.prototype.__defineGetter__('bindings', ()=>console.log("No point getting that"));
 
 /**
  * 

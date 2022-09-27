@@ -1,18 +1,18 @@
-import PubSub from "./pubsub.mjs";
-
 function Store(state) {
-    this._store = new PubSub();
-    this.subscribe = this._store.subscribe.bind(this._store);
-
+    this.observers = [];
     let set = setState.bind(this);
-
     this.state = new Proxy(state || {}, {set});
 }
-
+Store.prototype.subscribe = function (callback) {
+    this.observers.push(callback);
+    return ()=>this.observers = this.observers.filter(fn=>fn!==callback);
+}
+Store.prototype.notify = function () {
+    this.observers.map(callback=>callback(this.state));
+}
 function setState (state, key, value) {
     state[key] = value;
-    this._store.publish('stateChange', this.state);    
-
+    this.notify();
     return true;
 }
 
