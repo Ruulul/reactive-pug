@@ -16,7 +16,13 @@ function Component(props) {
     this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
     this.__defineGetter__('render', ()=> function () { this.element.innerHTML = pug.render(this._render()); }.bind(this));
     this._afterRender = props.afterRender || function () {}
-    this.__defineSetter__('afterRender', (fn)=>this._afterRender=fn.bind(this));
+    this.__defineSetter__('afterRender', (fn)=>{
+        this._afterRender=fn.bind(this);
+        if (!this.observer) {
+            this.observer = new MutationObserver(()=>this._afterRender()); 
+            this.observer.observe(this.element, {childList: true});
+        }
+    });
     this.__defineGetter__('afterRender', ()=>console.log("No point getting that"));
 
     this.unsubscribes = [];
@@ -29,8 +35,10 @@ function Component(props) {
 
     if (props.element)  {
         this.element = props.element;
-        this.observer = new MutationObserver(()=>this._afterRender()); 
-        this.observer.observe(this.element, {childList: true});
+        if (this._afterRender) {
+            this.observer = new MutationObserver(()=>this._afterRender()); 
+            this.observer.observe(this.element, {childList: true});
+        }
     }
 }
 
