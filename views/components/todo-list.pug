@@ -23,7 +23,7 @@ append script
                       '\n   i.x.icon'
             ).join('\n');
         }
-        list.afterRender = function () {
+        list.bindings = function () {
             this.element.querySelectorAll('.item').forEach((node, i)=>{
                 let item = state.items[i];
                 node.querySelector('.square').onclick = function () {

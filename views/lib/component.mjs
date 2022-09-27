@@ -15,15 +15,15 @@ function Component(props) {
     this._render = props.render || function () {return ''};
     this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
     this.__defineGetter__('render', ()=> function () { this.element.innerHTML = pug.render(this._render()); }.bind(this));
-    this._afterRender = props.afterRender || function () {}
-    this.__defineSetter__('afterRender', (fn)=>{
+    this._afterRender = props.bindings || function () {}
+    this.__defineSetter__('bindings', (fn)=>{
         this._afterRender=fn.bind(this);
         if (!this.observer) {
             this.observer = new MutationObserver(()=>this._afterRender()); 
             this.observer.observe(this.element, {childList: true});
         }
     });
-    this.__defineGetter__('afterRender', ()=>console.log("No point getting that"));
+    this.__defineGetter__('bindings', ()=>console.log("No point getting that"));
 
     this.unsubscribes = [];
     if (props.store instanceof Store)
