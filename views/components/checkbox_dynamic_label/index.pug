@@ -25,16 +25,15 @@ append script
             }
         });
 
-        const checkbox = new Component({store, element: root.querySelector('.ui.checkbox label')});
+        const label = new Component({store, element: root.querySelector('label')});
+        const input = root.querySelector('input');
 
-        checkbox.render = function() {
+        label.render = function() {
             if (this.store.state.checked) {
-                this.element.innerHTML = text_if_true;
+                return `| ${text_if_true}`
             } else {
-                this.element.innerHTML = text_if_false;
+                return `| ${text_if_false}`
             }
         }
-        checkbox.render();
-        root.querySelector('input').oninput = function(e){
-            store.dispatch('change', e.target.checked);
-        }
+        label.render();
+        input.oninput = () => store.dispatch('change', input.checked);

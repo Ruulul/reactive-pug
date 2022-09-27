@@ -1,5 +1,6 @@
 import Store from "./store.mjs";
-
+import './pug.js';
+let pug = require('pug');
 /**
  * 
  * @param {{
@@ -9,7 +10,9 @@ import Store from "./store.mjs";
  * }} props 
  */
 function Component(props) {
-    this.render = props.render || function () {};
+    this._render = props.render || function () {return ''};
+    this.__defineSetter__('render', (fn)=>this._render=fn.bind(this));
+    this.__defineGetter__('render', ()=> function () { this.element.innerHTML = pug.render(this._render()); }.bind(this));
     this.store = props.store || {};
 
     if (props.store instanceof Store)
