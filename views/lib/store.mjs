@@ -1,3 +1,9 @@
+/**@typedef {{observers: (data)=>void[], subscribe: (function)=>function, state: State, notify: function}} Store */
+/**
+ * @param {State} state
+ * @returns {Store} 
+ */
+
 function Store(state) {
     this.observers = [];
     let set = setState.bind(this);
@@ -16,6 +22,11 @@ function setState (state, key, value) {
     return true;
 }
 
+/**
+ * 
+ * @param {State} from_state 
+ * @returns {{store: Store, state: State}}
+ */
 Store.makeStore = function (from_state) {
     let store = new Store(from_state);
     let state = store.state;

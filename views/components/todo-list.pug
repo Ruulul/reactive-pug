@@ -55,6 +55,6 @@ append script
         const new_item = root.querySelector('button');
 
         new_item.onclick = ()=>{
-            addItem({checked: false, label: input.value})
+            addItem(input.value)
             input.value = '';
         }
