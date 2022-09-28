@@ -8,54 +8,53 @@ append content
             i.plus.icon
             | new item
     .ui.statistics
+        .statistic.complete
+            .label
+            .value
+        .statistic.total
+            .label
+            .value
+        .statistic.percent
+            .label
+            .value
 append script
     . 
         import Store from '/js/store.mjs';
         import Component from '/js/component.mjs';
-        const { store, state } = Store.makeStore({items: []});
-        const list = new Component({store, element: root.querySelector('.ui.list')});
-        const numbers = new Component({store, element: root.querySelector('.ui.statistics')});
+        import { store, state, addItem, markItem, removeItem } from '/js/todo-list.mjs';
 
+        const list = new Component({store, element: root.querySelector('.ui.list')});
         list.render = function () {
             return state.items.map(
                 item=>'.item' +
                       '\n i.icon.outline.square' + (item.checked ? '.check' : '') +
-                      '\n div.content ' + item.label +
+                      '\n div.content' + (item.checked ? '(style="text-decoration: line-through") ' : ' ') + item.label +
                       '\n   i.x.icon'
             ).join('\n');
         }
         list.bindings = function () {
             this.element.querySelectorAll('.item').forEach((node, i)=>{
-                let item = state.items[i];
-                node.querySelector('.square').onclick = function () {
-                    state.items[i].checked = !item.checked;
-                    state.items = state.items;
-                };
-                node.querySelector('.x').onclick = function () {
-                    let id = item.id;
-                    state.items = state.items.filter(item=>item.id !== id);
-                };
+                let id = state.items[i].id;
+                node.querySelector('.square').onclick = ()=>markItem(id);
+                node.querySelector('.x').onclick = ()=>removeItem(id);
             });
         }
-        numbers.render = function () {
-            let completed = state.items.filter(item=>item.checked).length;
+
+        const complete = new Component({store, element: root.querySelector('.statistics .complete')})
+        complete.render = () => '.label Completed' + '\n.value ' + state.items.filter(item=>item.checked).length
+        const total = new Component({store, element: root.querySelector('.statistics .total')})
+        total.render = () => '.label Total' + '\n.value ' + state.items.length
+        const percent = new Component({store, element: root.querySelector('.statistics .percent')})
+        percent.render = function () {
             let total = state.items.length;
-            let percentage = Math.floor(0.5 + 100 * completed/total || 0) + '%';
-            return    '.statistic' +
-                    '\n .label Items completed' +
-                    '\n .value ' + completed +
-                    '\n.statistic' +
-                    '\n .label Total items' +
-                    '\n .value ' + total +
-                    '\n.statistic' +
-                    '\n .label Percentage' +
-                    '\n .value ' + percentage
+            let complete = state.items.filter(item=>item.checked).length;
+            let ratio = (Math.floor(0.5 + 100 * complete/total) || 0) + '%'
+            return '.label Percent' + '\n.value ' + ratio;
         }
         const input = root.querySelector('input');
         const new_item = root.querySelector('button');
 
-        new_item.onclick = function () {
-            state.items.push({id: state.items.length, checked: false, label: input.value});
-            state.items = state.items;
+        new_item.onclick = ()=>{
+            addItem({checked: false, label: input.value})
             input.value = '';
         }
