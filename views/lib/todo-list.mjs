@@ -3,10 +3,13 @@ import Store from '/js/store.mjs';
 /**
  * @typedef {{checked: Boolean, label: string, id: number}} Item
  * @typedef {{items: Item[]}} State
- * @returns {
+ * @returns {{
  *  store: import('./store.mjs').Store,
  *  state: State,
- * }
+ *  addItem: function (string),
+ *  removeItem: function (id: number),
+ *  markItem: function(id: number),
+ * }} Store
  */
 function makeListStore() {
     /**@type {{store: import('./store.mjs').Store, state: State}} */
