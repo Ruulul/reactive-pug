@@ -1,19 +1,21 @@
 import Store from '/js/store.mjs';
 
 /**
- * @typedef {{checked: Boolean, label: string, id: number}} Item
+ * @typedef {{label: string, checked: Boolean, id: number}} Item
  * @typedef {{items: Item[]}} State
- * @returns {{
- *  store: import('./store.mjs').Store,
+ * @typedef {{
+ *  store: import('./store.mjs').Store<State>,
  *  state: State,
  *  addItem: function (string),
  *  removeItem: function (id: number),
  *  markItem: function(id: number),
  * }} Store
+ * @returns {Store} Store
  */
 function makeListStore() {
-    /**@type {{store: import('./store.mjs').Store, state: State}} */
+    /**@type {{store: import('./store.mjs').Store<State>, state: State}} */  
     const { store, state } = Store.makeStore({items: []});
+
     let id = 0;
     return {
         store,
