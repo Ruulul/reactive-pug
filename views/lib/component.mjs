@@ -3,13 +3,13 @@ import './pug.js';
 let pug = require('pug');
 
 /**
- * 
- * @param {{
+ * @typedef {{
  * render: function,
  * store: Store,
  * stores: Store[],
  * element: HTMLElement,
- * }} props 
+ * }} Component
+ * @param {Component} props 
  */
 function Component(props) {
     this._render = props.render || null;
@@ -43,7 +43,7 @@ Component.prototype.__defineGetter__('render', function () {
     }.bind(this) 
 });
 Component.prototype.__defineSetter__('bindings', function (fn) {
-    this._afterRender=fn.bind(this);
+    this._afterRender=fn.bind(this.element);
     if (!this.observer) {
         this.observer = new MutationObserver(()=>this._afterRender()); 
         this.observer.observe(this.element, {childList: true});

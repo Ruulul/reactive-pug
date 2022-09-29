@@ -33,7 +33,7 @@ append script
             ).join('\n');
         }
         list.bindings = function () {
-            this.element.querySelectorAll('.item').forEach((node, i)=>{
+            this.querySelectorAll('.item').forEach((node, i)=>{
                 let id = state.items[i].id;
                 node.querySelector('.square').onclick = ()=>markItem(id);
                 node.querySelector('.x').onclick = ()=>removeItem(id);
